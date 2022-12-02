@@ -15,10 +15,12 @@ def home():
 def web_comment_reply_post():
     comment_id_receive = request.form['comment_id_give']
     comment_receive = request.form['comment_give']
+    star_receive = request.form['star_give']
 
     doc = {
         'comment_id': comment_id_receive,
-        'comment': comment_receive
+        'comment': comment_receive,
+        'star': star_receive
     }
     db.comment_reply.insert_one(doc)
 

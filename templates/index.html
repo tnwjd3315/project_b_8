@@ -68,10 +68,14 @@
                     for (let i = 0; i < rows.length; i++) {
                         let comment_id = rows[i]["comment_id"]
                         let comment = rows[i]["comment"]
+                        let star = rows[i]["star"]
+
+                        let star_image = "*".repeat(star)
 
                         let temp_html = `<tr>
                                             <td>${comment_id}</td>
                                             <td>${comment}</td>
+                                            <td>${star_image}</td>
                                         </tr>`
                         $("#comment_box").append(temp_html)
                     }
@@ -82,11 +86,13 @@
         function save_comment() {
             let comment_id = $("#comment_id").val()
             let comment = $("#comment").val()
+            let star = rows[i]["star"]
+            let star_image = "*".repeat(star)
 
             $.ajax({
                 type: 'POST',
                 url: '/codes/:post_id/comment/:comment_id/comment_reply/:comment_reply_id',
-                data: {comment_id_give: comment_id, comment_give: comment},
+                data: {comment_id_give: comment_id, comment_give: comment,star_give: star},
                 success: function (response) {
                     alert(response['msg'])
                     window.location.reload()
@@ -117,8 +123,8 @@
 
 
         <div class="input-group mb-3">
-            <label class="input-group-text" for="size">난이도</label>
-            <select class="form-select" id="size">
+            <label class="input-group-text" for="star">난이도</label>
+            <select class="form-select" id="star">
                 <option selected>-- 내가 느낀 이 문제의 난이도 --</option>
                 <option value="1">⭐</option>
                 <option value="2">⭐⭐</option>
