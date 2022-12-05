@@ -1,14 +1,12 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request
+import pymysql
+import json
+
 app = Flask(__name__)
-
-from pymongo import MongoClient
-client = MongoClient('mongodb+srv://test:0000@cluster0.5itx0mj.mongodb.net/Cluster0?retryWrites=true&w=majority')
-db = client.dbsparta
-
 
 @app.route('/')
 def home():
-    return render_template('index.html')
+    return render_template('comment.html')
 
 
 @app.route("/codes/:post_id/comment/:comment_id/comment_reply/:comment_reply_id", methods=["POST"])
