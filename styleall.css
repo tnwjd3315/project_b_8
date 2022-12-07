@@ -1,0 +1,40 @@
+@charset "utf-8";
+.card-body {
+    max-width: 300px;
+    margin: 20px auto 20px auto;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0px 0px 20px 0px #e8344e;
+    padding: 20px;
+    align-items: center;
+    height: auto;
+    background-color: white;
+}
+
+.card {
+    max-width: 300px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0px 0px 20px 0px #e8344e;
+    padding: 20px;
+}
+
+.card-title {
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0px 0px 20px 0px #e8344e;
+    padding: 20px;
+}
+
+.card-text {
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0px 0px 20px 0px #e8344e;
+    padding: 20px;
+}
+
+.col {
+    display: flex;
+}
+
+
