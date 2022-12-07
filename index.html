@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+          integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/styleall.css') }}">
+    <script type="text/javascript" src="/assets/js/paste.js"></script>
+    <title>Title</title>
+
+    <script>
+        $(document).ready(function () {
+
+            show_comment()
+        });
+
+
+
+        function show_comment() {
+            $.ajax({
+                type: "GET",
+                url: "/review",
+                data: {},
+                success: function (response) {
+                    doc = JSON.parse(response)
+                    // 인수로 전달받은 문자열을 자바스크립트 객체로 변환하여 반환합
+                    console.log(doc)
+                    for (let i = 0; i < doc.length; i++) {
+                        let id = doc[i][0]
+                        let title = doc[i][1]
+                        let comment = doc[i][2]
+                        let problem_id = doc[i][3]
+                        let user_id = doc[i][4]
+
+                        let temp_html = `<div class="card">
+                                            <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/Icecat1-300x300.svg" class="card-img-top"
+                                                 alt="...">
+                                            <div class="card-body">
+                                                <h5 class="card-title">${id},${title}</h5>
+
+                                                <p class="card-text">${comment}</p>
+                                                <p class="card-text">${user_id}</p>
+                                                <p class="card-text">${problem_id}</p>
+                                                <button onclick="del_review(${id})" type="button" class="btn btn-dark" id="darkbtn">review삭제</button>
+                                                <button onclick="up_review(${id})" type="button" class="btn btn-dark" id="darkbtn">review수정</button>
+                                            </div>
+                                        </div>
+                       `
+                        $('#review-list').append(temp_html)
+
+                    }
+                }
+            });
+        }
+
+        function del_review(id) {//id 번째 지울꺼야
+            let review_id = id
+            $.ajax({
+                type: "DELETE",
+                url: "/review",
+                data: {'review_id_give': review_id},
+                success: function (response) {
+                    alert("삭제완료")
+                }
+            })
+        }
+
+        function up_review(id) {
+            let title = prompt("title", "입력")
+            let comment = prompt("comment", "입력")
+            let review_id = id
+            $.ajax({
+                type: "UPDATE",
+                url: "/review",
+                data: {review_title_give: title, review_comment_give: comment, review_id_give: review_id},
+                success: function (response) {
+                    alert(response['msg'])
+                    window.location.reload()
+
+                }
+            })
+
+        }
+
+        function insert_review() {
+            let title = $('#title').val()
+            let comment = $('#comment').val()
+            let user_id = $('#userid').val()
+            let problem_id = $('#problemid').val()
+
+            $.ajax({
+                type: "POST",
+                url: "/review",
+                data: {
+                    review_title_give: title,
+                    review_comment_give: comment,
+                    user_id_give: user_id,
+                    problem_id_give: problem_id
+                },
+                success: function (response) {
+                    console.log(title, comment, user_id, problem_id)
+                    alert(response['msg'])
+                    window.location.reload()
+                }
+            })
+        }
+
+    </script>
+
+</head>
+<body>
+
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<h1 style="text-align: center">코딩 게시판</h1>
+<div class="mypost">
+
+    <div class="form-floating mb-3">
+        <div class="row">
+            <div class="col">
+                <input type="text" class="form-control" id="title" placeholder="제목">
+            </div>
+        </div>
+    </div>
+    <div class="form-floating">
+        <textarea class="form-control" placeholder="Leave a comment here" id="comment"
+                  style="height: 100px"></textarea>
+        <label for="floatingTextarea2">내용</label>
+    </div>
+    <div class="form-floating mb-3">
+        <div class="row">
+            <div class="col">
+                <input type="text" class="form-control" id="userid" placeholder="유저번호">
+            </div>
+        </div>
+    </div>
+    <div class="form-floating">
+        <textarea class="form-control" placeholder="Leave a comment here" id="problemid"
+                  style="height: 100px"></textarea>
+        <label for="floatingTextarea2">문제번호</label>
+    </div>
+    <button onclick="insert_review()" type="button" class="btn btn-dark" id="darkbtn">방명록 남기기</button>
+</div>
+
+<div class="col" id="review-list">
+
+</div>
+
+</body>
+</html>
+
