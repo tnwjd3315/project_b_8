@@ -16,13 +16,12 @@
             crossorigin="anonymous"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/styleall.css') }}">
-    <script type="text/javascript" src="/assets/js/paste.js"></script>
     <script type=text/javascript src="{{ url_for('static', filename='js/jsuery.js') }}"></script>
     <title>Title</title>
 
 
-
 </head>
+
 <body>
 
 <p></p>
@@ -30,6 +29,10 @@
 <p></p>
 <p></p>
 <h1 style="text-align: center">코딩 게시판</h1>
+
+<div id="problem" style="background-color: pink">
+
+</div>
 <div class="mypost">
 
     <div class="form-floating mb-3">
@@ -44,13 +47,9 @@
                   style="height: 100px"></textarea>
         <label for="floatingTextarea2">내용</label>
     </div>
-    <div class="form-floating mb-3">
-        <div class="row">
-            <div class="col">
-                <input type="text" class="form-control" id="userid" placeholder="유저번호">
-            </div>
-        </div>
-    </div>
+
+
+    /////////////////////////////////////////////////problem
     <div class="form-floating">
         <textarea class="form-control" placeholder="Leave a comment here" id="problemid"
                   style="height: 100px"></textarea>
@@ -58,7 +57,6 @@
     </div>
     <button onclick="insert_review()" type="button" class="btn btn-dark" id="darkbtn">방명록 남기기</button>
 </div>
-
 <div class="col" id="review-list">
 
 </div>
